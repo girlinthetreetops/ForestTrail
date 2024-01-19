@@ -11,14 +11,13 @@ GameObject:
   - component: {fileID: 4618782393267325564}
   - component: {fileID: 7757351838387192227}
   - component: {fileID: 7872888135906205931}
-  - component: {fileID: 3800817009284220756}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4618782393267325564
 Transform:
   m_ObjectHideFlags: 0
@@ -89,29 +88,6 @@ MonoBehaviour:
   playerRadius: 0.2
   playerHeight: 1
   reachDistance: 0.1
---- !u!136 &3800817009284220756
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3312099384815050550}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.2
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1001 &909287885704220550
 PrefabInstance:
   m_ObjectHideFlags: 0

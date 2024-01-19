@@ -7,7 +7,12 @@ public class GameManager : MonoBehaviour
 {
     //Singleton establishment 
     public static GameManager Instance { get; private set; }
-    private void Awake() { if (Instance != null && Instance != this) { Destroy(this); } else { Instance = this; DontDestroyOnLoad(Instance); } }
+    private void Awake()
+    {
+        if (Instance != null && Instance != this) { Destroy(this); } else { Instance = this; DontDestroyOnLoad(Instance); }
+
+        currentlySelectedLevel = levels[0];//Until I add more levels... the selected level will be set to 0 at start as default.
+    }
 
     //Level fields
     public List<LevelClass> levels;
@@ -15,6 +20,7 @@ public class GameManager : MonoBehaviour
 
     //gameplay prefs
     private float difficultySpeed = 0.5f;
+    public float globalSoundeffectVolume = 0.3f;
 
     //Events
     public UnityEvent OnButtonClick;
@@ -24,6 +30,8 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnMainMenuOpen;
 
     public UnityEvent OnSelectedLevelChange;
+
+    public UnityEvent OnAudioVolumeChanged;
 
     public UnityEvent OnLoadLevel; //Level loading stage 1
 
@@ -41,15 +49,15 @@ public class GameManager : MonoBehaviour
 
     public UnityEvent OnGameQuit;
 
-
     //key bools
     public bool isGamePaused;
     public bool isInCountdown;
 
+
     private void Start()
     {
-        currentlySelectedLevel = levels[1];//Until I add more levels... the selected level will be set to 0 at start as default.
         OpenGame();
+
         isInCountdown = false;
         isGamePaused = false;
     }
@@ -131,17 +139,21 @@ public class GameManager : MonoBehaviour
 
     public void chooseNextLevel()
     {
-
+        int currentIndex = levels.IndexOf(currentlySelectedLevel);
+        int nextIndex = (currentIndex + 1) % levels.Count; // Use modulo to wrap around to 0 when reaching the end
+        SetCurrentLevel(nextIndex);
     }
 
     public void chooosePreviousLevel()
     {
-
+        int currentIndex = levels.IndexOf(currentlySelectedLevel);
+        int previousIndex = (currentIndex - 1 + levels.Count) % levels.Count; // Ensure the result is non-negative
+        SetCurrentLevel(previousIndex);
     }
 
-    public void SetCurrentLevel(int levelIndex)
+    public void SetCurrentLevel(int newLevelIndex)
     {
-        currentlySelectedLevel = levels[levelIndex];
+        currentlySelectedLevel = levels[newLevelIndex];
         OnSelectedLevelChange.Invoke();
     }
 
@@ -152,15 +164,18 @@ public class GameManager : MonoBehaviour
 
     public void SetDifficulty(float newDifficulty)
     {
-        if (newDifficulty < 1 || newDifficulty > 0)
-        {
             difficultySpeed = newDifficulty;
-        }
     }
 
     public float GetDifficulty()
     {
         return difficultySpeed;
+    }
+
+    public void SetAudioVolume(float newVolume)
+    {
+        globalSoundeffectVolume = newVolume;
+        OnAudioVolumeChanged.Invoke();
     }
 
 }

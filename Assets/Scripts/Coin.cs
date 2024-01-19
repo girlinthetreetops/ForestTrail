@@ -5,13 +5,20 @@ using UnityEngine;
 public class Coin : MonoBehaviour
 {
     public float rotationSpeed = 10f;
-    public AudioSource coinPickupSound;
+    //public AudioSource coinPickupSound;
     public Collider coll;
 
-    private void Start()
-    {
-        
-    }
+
+    //private void OnEnable()
+    //{
+    //    UpdateVolume();
+    //}
+
+    //private void UpdateVolume()
+    //{
+    //    coinPickupSound.volume = GameManager.Instance.globalSoundeffectVolume;
+    //}
+
     private void Update()
     {
         transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
@@ -22,9 +29,10 @@ public class Coin : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             GameManager.Instance.CoinPickup();
-            coinPickupSound.Play();
+            //coinPickupSound.Play();
             gameObject.SetActive(false);
         }
     }
+
 
 }

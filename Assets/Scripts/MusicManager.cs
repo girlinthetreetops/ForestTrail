@@ -5,9 +5,6 @@ using UnityEngine;
 public class MusicManager : MonoBehaviour
 {
     public AudioClip defaultBackgroundSoundtrack;
-
-
-    public GameManager gameManager;
     public AudioSource backgroundAudioSource;
 
     public AudioSource coinAudiosource;
@@ -16,13 +13,19 @@ public class MusicManager : MonoBehaviour
 
     private void Start()
     {
-        gameManager.OnGameOpen.AddListener(PlayDefaultSoundtrack);
-        gameManager.OnLoadLevel.AddListener(PlayLevelSoundtrack);
-        gameManager.OnGameQuit.AddListener(PlayDefaultSoundtrack);
+        GameManager.Instance.OnGameOpen.AddListener(PlayDefaultSoundtrack);
 
-        gameManager.OnCoinPickup.AddListener(PlayCoinPickup);
-        gameManager.OnCollision.AddListener(PlayCollisionSound);
-        gameManager.OnButtonClick.AddListener(PlayButtonClickSound);
+        GameManager.Instance.OnAudioVolumeChanged.AddListener(UpdateAudioVolume);
+
+        GameManager.Instance.OnLoadLevel.AddListener(PlayLevelSoundtrack);
+
+        GameManager.Instance.OnGameQuit.AddListener(PlayDefaultSoundtrack);
+
+        GameManager.Instance.OnCoinPickup.AddListener(PlayCoinPickup);
+        GameManager.Instance.OnCollision.AddListener(PlayCollisionSound);
+        GameManager.Instance.OnButtonClick.AddListener(PlayButtonClickSound);
+
+
     }
 
     private void PlayDefaultSoundtrack()
@@ -36,7 +39,7 @@ public class MusicManager : MonoBehaviour
 
     private void PlayLevelSoundtrack()
     {
-        backgroundAudioSource.clip = gameManager.GetCurrentlySelectedLevel().levelMusic;
+        backgroundAudioSource.clip = GameManager.Instance.GetCurrentlySelectedLevel().levelMusic;
         backgroundAudioSource.Play();
     }
 
@@ -60,5 +63,14 @@ public class MusicManager : MonoBehaviour
     public void SetBackgroundMusicVolume(float newVolume)
     {
         backgroundAudioSource.volume = newVolume;
+    }
+
+    private void UpdateAudioVolume()
+    {
+        float newVolume = GameManager.Instance.globalSoundeffectVolume;
+
+        coinAudiosource.volume = newVolume;
+        crashSound.volume = newVolume;
+        buttonClickSound.volume = newVolume;
     }
 }

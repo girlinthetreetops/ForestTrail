@@ -9,6 +9,7 @@ TagManager:
   - PowerUp
   - Ground
   - Ramp
+  - FloatingObstacle
   layers:
   - Default
   - TransparentFX

@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpPower = 7f;
     public float groundProximityJumpGrace = 0.8f; // To adjust jump grace
     public float jumpMultiplier = 3;
-    public float rollCoolDown = 0.2f;
+    public float rollCoolDown = 2f;
 
     //References
     public GameManager gameManager;
@@ -45,12 +45,6 @@ public class PlayerMovement : MonoBehaviour
     private float xVel; //horisontal velocity
     private float yVel; //vertical velocity... its set to jumppower when jumping up...
 
-    //Raycast information
-    private float tmpColHeight;
-    private float tmpColCenterY;
-    [SerializeField] private float playerRadius;
-    [SerializeField] private float playerHeight;
-    [SerializeField] private float reachDistance;
 
     public void Start()
     {
@@ -64,7 +58,6 @@ public class PlayerMovement : MonoBehaviour
         inputManager.OnSwipeUp.AddListener(StartJump);
         inputManager.OnSwipeDown.AddListener(StartRoll);
 
-        //gameManager.OnLoadLevel.AddListener(GetPlayerReady);
         gameManager.OnGameStart.AddListener(StartRunning);
         gameManager.OnCollision.AddListener(RespondToCollision);
 
@@ -89,12 +82,6 @@ public class PlayerMovement : MonoBehaviour
 
         transform.position = new Vector3(0,0,0);
         currentLane = Lane.Middle;
-
-        playerHeight = cc.height;
-        playerRadius = cc.radius;
-        tmpColHeight = cc.height;
-        tmpColCenterY = cc.center.y;
-        reachDistance = cc.radius;
 
         hasCollided = false;
         isInRoll = false;
@@ -191,37 +178,51 @@ public class PlayerMovement : MonoBehaviour
         swipeUp = false;
     }
 
-    internal float RollCounter;
+    //internal float RollCounter;
 
     public void Roll()
     {
         if (canMove)
         {
-            //Turn off the roll  when 0 is larger than our counter - make sure to reset roll height/center/bool back to non-roll state 
-            if (RollCounter <= 0f)
+            //start the roll
+            if (swipeDown && !isInRoll)
             {
-                RollCounter = 0;
-                cc.center = new Vector3(0, tmpColCenterY, 0);
-                cc.height = tmpColHeight;
-                isInRoll = false;
+                isInRoll = true;
+                anim.CrossFadeInFixedTime("Roll", 0.3f);
+                StartCoroutine("rollCoundwon");
             }
 
-            //if swiping down and the timer is still not out of time... 
-            if (swipeDown && RollCounter <= 0f)
-            {
-                RollCounter = rollCoolDown;
-                yVel -= 10f;
-                cc.center = new Vector3(0, tmpColCenterY / 2, 0);
-                cc.height = tmpColHeight / 2;
-                anim.CrossFadeInFixedTime("Roll", 0.3f);
-                isInRoll = true;
-                isInJump = false;
-            }
+            //if (RollCounter <= 0f)
+            //{
+            //    RollCounter = 0;
+            //    cc.center = new Vector3(0, tmpColCenterY, 0);
+            //    cc.height = tmpColHeight;
+            //    isInRoll = false;
+            //}
+
+            ////if swiping down and the timer is still not out of time... 
+            //if (swipeDown && RollCounter <= 0f)
+            //{
+            //    RollCounter = rollCoolDown;
+            //    yVel -= 10f;
+            //    cc.center = new Vector3(0, tmpColCenterY / 2, 0);
+            //    cc.height = tmpColHeight / 2;
+            //    anim.CrossFadeInFixedTime("Roll", 0.3f);
+            //    isInRoll = true;
+            //    isInJump = false;
+            //}
         }
 
-        RollCounter -= Time.deltaTime; //detract from our roll counter timer 
+        //RollCounter -= Time.deltaTime; //detract from our roll counter timer 
         swipeDown = false; 
     }
+
+    private IEnumerator rollCoundwon()
+    {
+        yield return new WaitForSeconds(rollCoolDown);
+        isInRoll = false;
+    }
+
 
     public void CheckForCollisions()
     {
@@ -229,33 +230,35 @@ public class PlayerMovement : MonoBehaviour
 
         if (!hasCollided)
         {
-            if (Physics.SphereCast(sphereCastOrigin, playerRadius, transform.forward, out RaycastHit hit, reachDistance))
+            if (Physics.SphereCast(sphereCastOrigin, cc.radius, transform.forward, out RaycastHit hit, cc.radius))
             {
+
+                if (!isInRoll && hit.collider.CompareTag("FloatingObstacle")) //floating obstacles are only collided with if you're not rolling
+                {
+                    GameManager.Instance.Collide();
+                }
+
                 if (hit.collider.CompareTag("Obstacle") && canMove)
                 {
                     GameManager.Instance.Collide();
-                    Debug.Log("Obstacle coll detected!");
-
                 }
             }
 
-            if (Physics.SphereCast(sphereCastOrigin, playerRadius, transform.right, out RaycastHit rightHit, reachDistance))
-            {
-                if (rightHit.collider.CompareTag("Obstacle") && canMove)
-                {
-                    GameManager.Instance.Collide();
-                    Debug.Log("Obstacle coll detected!");
-                }
-            }
+            //if (Physics.SphereCast(sphereCastOrigin, cc.radius, transform.right, out RaycastHit rightHit, cc.radius))
+            //{
+            //    if (rightHit.collider.CompareTag("Obstacle") && canMove)
+            //    {
+            //        GameManager.Instance.Collide();
+            //    }
+            //}
 
-            if (Physics.SphereCast(sphereCastOrigin, playerRadius, -transform.right, out RaycastHit leftHit, reachDistance))
-            {
-                if (leftHit.collider.CompareTag("Obstacle") && canMove)
-                {
-                    GameManager.Instance.Collide();
-                    Debug.Log("Obstacle coll detected!");
-                }
-            }
+            //if (Physics.SphereCast(sphereCastOrigin, cc.radius, -transform.right, out RaycastHit leftHit, cc.radius))
+            //{
+            //    if (leftHit.collider.CompareTag("Obstacle") && canMove)
+            //    {
+            //        GameManager.Instance.Collide();
+            //    }
+            //}
         }
     }
 

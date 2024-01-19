@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee2f659c506d344c2812ec3d8aaf4d42, type: 3}
   m_Name: Forest Trail
   m_EditorClassIdentifier: 
-  startingSection: {fileID: 3223446383990667567, guid: dce872795e69646a199411f023af0630,
+  startingSection: {fileID: 4249574247824174576, guid: 6bfecb5ba80824527ba0a2cf6230b64a,
     type: 3}
   sectionPrefabs:
   - {fileID: 3223446383990667567, guid: 7a8ca44df2fb24c32920d2934dea6968, type: 3}
@@ -22,5 +22,5 @@ MonoBehaviour:
     type: 3}
   levelTitle: Forest Trail
   levelMusic: {fileID: 8300000, guid: 11198441edf604583900a5ebaead1422, type: 3}
-  highScore: 0
+  highScore: 15.282425
   levelThumbnail: {fileID: 21300000, guid: edd1c1d9eefb842c6823bab1bff99815, type: 3}

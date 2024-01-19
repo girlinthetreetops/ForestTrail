@@ -11,14 +11,17 @@ public class LevelSpawner : MonoBehaviour
 
     public Vector3 offSet = new Vector3(0, 0, 30);
 
+    GameObject trail;
+
     private void Start()
     {
         gameManager.OnLoadLevel.AddListener(SpawnLevel);
+
+        GameManager.Instance.OnGameQuit.AddListener(ClearTrail);
     }
 
     private void SpawnLevel()
     {
-
         player.SetActive(true);
 
         //create pool
@@ -26,13 +29,20 @@ public class LevelSpawner : MonoBehaviour
         pool.GenerateLevelPool();
 
         //Spawn the ground that will just stay in place
-        Instantiate(gameManager.currentlySelectedLevel.environment, Vector3.zero, Quaternion.identity);
-        
-        pool.ActivateARandomSection(new Vector3(0, 0, 0), out previousPosition);
+        trail = Instantiate(gameManager.currentlySelectedLevel.environment, Vector3.zero, Quaternion.identity);
+
+        //pool.ActivateARandomSection(new Vector3(0, 0, 0), out previousPosition);
+
+        Instantiate(GameManager.Instance.currentlySelectedLevel.startingSection, Vector3.zero, Quaternion.identity);
         pool.ActivateARandomSection(previousPosition + offSet, out previousPosition);
         pool.ActivateARandomSection(previousPosition + offSet*2, out previousPosition);
         
-    } 
+    }
+
+    private void ClearTrail()
+    {
+        Destroy(trail);
+    }
 
 
 

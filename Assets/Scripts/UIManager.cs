@@ -19,6 +19,10 @@ public class UIManager : MonoBehaviour
     public GameObject settingsUI;
 
     //mainmenu elements
+    public TMP_Text levelTitle;
+    public Image levelThumbnail;
+    public TMP_Text levelHighscoreDisplay;
+
     public TMP_Text goldDisplayMM;
 
     //gameplay elements
@@ -34,15 +38,20 @@ public class UIManager : MonoBehaviour
     //Settings screen elements
     public Slider musicVolumeSlider;
     public Slider difficultySlider;
+    public Slider soundVolumeSlider;
 
     //Events to respond to 
     private void Start()
     {
         GameManager.Instance.OnGameOpen.AddListener(loadLogoScreen);
 
+        GameManager.Instance.OnMainMenuOpen.AddListener(GameOpenPrep);
         GameManager.Instance.OnMainMenuOpen.AddListener(loadMainMenu);
 
-        GameManager.Instance.OnLoadLevel.AddListener(OpenCountDownUIandGameplayUI);
+        GameManager.Instance.OnSelectedLevelChange.AddListener(UpdateMmLevelCard);
+
+
+        GameManager.Instance.OnLoadLevel.AddListener(OpenCountDownUI);
         GameManager.Instance.OnLoadLevel.AddListener(StartCountdown);
 
         GameManager.Instance.OnGameStart.AddListener(UpdateGameplayUI);
@@ -64,16 +73,32 @@ public class UIManager : MonoBehaviour
         //sliders
         musicVolumeSlider.onValueChanged.AddListener(UpdateMusicVolume);
         difficultySlider.onValueChanged.AddListener(UpdateDifficulty);
+        soundVolumeSlider.onValueChanged.AddListener(UpdateAudioVolume);
+    }
 
-        //load data from prior
+    private void GameOpenPrep()
+    {
+        //load data so that no field is empty...
         UpdateGameplayUI();
-
+        UpdateMmLevelCard();
 
     }
+
 
     private void Update()
     {
         scoreDisplay.SetText(dataManager.levelTimer.ToString("0"));
+    }
+
+    public void UpdateMmLevelCard()
+    {
+        goldDisplayMM.SetText(dataManager.playerGold.ToString());
+
+        levelTitle.SetText(GameManager.Instance.currentlySelectedLevel.levelTitle);
+
+        levelThumbnail.sprite = GameManager.Instance.currentlySelectedLevel.levelThumbnail;
+
+        levelHighscoreDisplay.SetText(GameManager.Instance.currentlySelectedLevel.highScore.ToString("0"));
     }
 
     public void UpdateGameplayUI()
@@ -85,12 +110,12 @@ public class UIManager : MonoBehaviour
         goldDisplayMM.SetText(dataManager.playerGold.ToString());
     }
 
-    public void OpenCountDownUIandGameplayUI()
+    public void OpenCountDownUI()
     {
         logoUI.SetActive(false);
         mainUI.SetActive(false);
         pauseUI.SetActive(false);
-        gameplayUI.SetActive(true);
+        gameplayUI.SetActive(false);
         gameOverUI.SetActive(false);
         countDownUI.SetActive(true);
     }
@@ -191,7 +216,10 @@ public class UIManager : MonoBehaviour
     {
         GameManager.Instance.SetDifficulty(newDifficulty);
     }
-
+    public void UpdateAudioVolume(float audioVolume)
+    {
+        GameManager.Instance.SetAudioVolume(audioVolume); 
+    }
 }
 
 

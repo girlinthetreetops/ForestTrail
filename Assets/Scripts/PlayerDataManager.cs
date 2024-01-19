@@ -7,7 +7,7 @@ public class PlayerDataManager : MonoBehaviour
     public GameManager gameManager;
 
     //data
-    public int playerGold;
+    public int playerGold = 0;
 
     //temporary level data
     public int lives;
@@ -18,14 +18,21 @@ public class PlayerDataManager : MonoBehaviour
     private void Start()
     {
         gameManager.OnGameOpen.AddListener(ResetLevelData);
-        gameManager.OnLoadLevel.AddListener(ResetLevelData);
-        gameManager.OnGameQuit.AddListener(ResetLevelData);
 
         gameManager.OnGameStart.AddListener(StartLevelTimerFromZero);
-        gameManager.OnGamePause.AddListener(PauseLevelTimer);
-        gameManager.onGameUnpause.AddListener(EnablLevelTimer);
+
+        gameManager.OnLoadLevel.AddListener(ResetLevelData);
+
         gameManager.OnCoinPickup.AddListener(AddGold);
         gameManager.OnCollision.AddListener(TakeDamage);
+
+        gameManager.OnGamePause.AddListener(PauseLevelTimer);
+        gameManager.onGameUnpause.AddListener(EnablLevelTimer);
+
+        gameManager.OnGameOver.AddListener(TryUpdateHighscore);
+        gameManager.OnGameQuit.AddListener(TryUpdateHighscore);
+
+        gameManager.OnGameQuit.AddListener(ResetLevelData);
 
         lives = 3;
     }
@@ -48,7 +55,6 @@ public class PlayerDataManager : MonoBehaviour
     {
         isTimerRunning = true;
         levelTimer = 0f;
-        
     }
 
     public void PauseLevelTimer()
@@ -89,6 +95,4 @@ public class PlayerDataManager : MonoBehaviour
             level.highScore = score;
         }
     }
-
-    
 }
