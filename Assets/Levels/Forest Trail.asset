@@ -15,12 +15,15 @@ MonoBehaviour:
   startingSection: {fileID: 4249574247824174576, guid: 6bfecb5ba80824527ba0a2cf6230b64a,
     type: 3}
   sectionPrefabs:
-  - {fileID: 3223446383990667567, guid: 7a8ca44df2fb24c32920d2934dea6968, type: 3}
-  - {fileID: 3223446383990667567, guid: dce872795e69646a199411f023af0630, type: 3}
-  - {fileID: 3223446383990667567, guid: af9ed0288dccd4b6d9be4b4578b190ef, type: 3}
+  - {fileID: 2670238297097556888, guid: 4eefb2437e0f0487a8f50801cb4c2ad1, type: 3}
+  - {fileID: 8578287760318760280, guid: fdff9612f2c3c4422b14e5792585e032, type: 3}
+  - {fileID: 1198381995603468402, guid: 2436a8c9159af469daa6d0f3b281ea99, type: 3}
+  - {fileID: 4934575466740997263, guid: ad6a7e7364e524a44a21750811f3a71c, type: 3}
+  - {fileID: 4934575466740997263, guid: 9d713157a293a4726b720b0725c3758b, type: 3}
+  - {fileID: 4934575466740997263, guid: 116ab9150454a4f5781b29a81f648123, type: 3}
   environment: {fileID: 4249574247824174576, guid: 76953c9a3cdb548148c9607655d72dda,
     type: 3}
   levelTitle: Forest Trail
   levelMusic: {fileID: 8300000, guid: 11198441edf604583900a5ebaead1422, type: 3}
-  highScore: 15.282425
+  highScore: 97.966934
   levelThumbnail: {fileID: 21300000, guid: edd1c1d9eefb842c6823bab1bff99815, type: 3}

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerDataManager : MonoBehaviour
 {
-    public GameManager gameManager;
 
     //data
     public int playerGold = 0;
@@ -17,22 +16,24 @@ public class PlayerDataManager : MonoBehaviour
 
     private void Start()
     {
-        gameManager.OnGameOpen.AddListener(ResetLevelData);
+        GameManager.Instance.OnGameOpen.AddListener(ResetLevelData);
 
-        gameManager.OnGameStart.AddListener(StartLevelTimerFromZero);
+        GameManager.Instance.OnGameStart.AddListener(StartLevelTimerFromZero);
 
-        gameManager.OnLoadLevel.AddListener(ResetLevelData);
+        GameManager.Instance.OnLoadLevel.AddListener(ResetLevelData);
 
-        gameManager.OnCoinPickup.AddListener(AddGold);
-        gameManager.OnCollision.AddListener(TakeDamage);
+        GameManager.Instance.OnCoinPickup.AddListener(AddGold);
+        GameManager.Instance.OnHeartPickup.AddListener(Heal);
 
-        gameManager.OnGamePause.AddListener(PauseLevelTimer);
-        gameManager.onGameUnpause.AddListener(EnablLevelTimer);
+        GameManager.Instance.OnCollision.AddListener(TakeDamage);
 
-        gameManager.OnGameOver.AddListener(TryUpdateHighscore);
-        gameManager.OnGameQuit.AddListener(TryUpdateHighscore);
+        GameManager.Instance.OnGamePause.AddListener(PauseLevelTimer);
+        GameManager.Instance.onGameUnpause.AddListener(EnablLevelTimer);
 
-        gameManager.OnGameQuit.AddListener(ResetLevelData);
+        GameManager.Instance.OnGameOver.AddListener(TryUpdateHighscore);
+        GameManager.Instance.OnGameQuit.AddListener(TryUpdateHighscore);
+
+        GameManager.Instance.OnGameQuit.AddListener(ResetLevelData);
 
         lives = 3;
     }
@@ -41,7 +42,7 @@ public class PlayerDataManager : MonoBehaviour
     {
         if (lives <=0)
         {
-            gameManager.GameOver();
+            GameManager.Instance.GameOver();
             lives = 3;
         }
 
@@ -83,9 +84,14 @@ public class PlayerDataManager : MonoBehaviour
         lives -= 1;
     }
 
+    public void Heal()
+    {
+        lives += 1;
+    }
+
     public void TryUpdateHighscore()
     {
-        UpdateLevelHighscore(levelTimer, gameManager.GetCurrentlySelectedLevel());
+        UpdateLevelHighscore(levelTimer, GameManager.Instance.GetCurrentlySelectedLevel());
     }
 
     public void UpdateLevelHighscore(float score, LevelClass level)

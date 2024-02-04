@@ -88,6 +88,8 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _BendAmountX: -0.002
+    - _BendAmountY: -0.002
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -116,7 +118,7 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _SwayAmount: 1
+    - _SwayAmount: 0.1
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:

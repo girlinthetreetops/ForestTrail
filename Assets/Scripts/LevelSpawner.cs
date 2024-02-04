@@ -9,7 +9,7 @@ public class LevelSpawner : MonoBehaviour
     public GameObject player;
     public Vector3 previousPosition;
 
-    public Vector3 offSet = new Vector3(0, 0, 30);
+    private Vector3 offSet = GameManager.Instance.sectionOffset;
 
     GameObject trail;
 
@@ -34,8 +34,8 @@ public class LevelSpawner : MonoBehaviour
         //pool.ActivateARandomSection(new Vector3(0, 0, 0), out previousPosition);
 
         Instantiate(GameManager.Instance.currentlySelectedLevel.startingSection, Vector3.zero, Quaternion.identity);
-        pool.ActivateARandomSection(previousPosition + offSet, out previousPosition);
-        pool.ActivateARandomSection(previousPosition + offSet*2, out previousPosition);
+        pool.ActivateARandomSection(previousPosition + GameManager.Instance.sectionOffset, out previousPosition);
+        pool.ActivateARandomSection(previousPosition + GameManager.Instance.sectionOffset * 2, out previousPosition);
         
     }
 

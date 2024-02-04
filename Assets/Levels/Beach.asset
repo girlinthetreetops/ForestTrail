@@ -16,7 +16,7 @@ MonoBehaviour:
     type: 3}
   sectionPrefabs:
   - {fileID: 3223446383990667567, guid: dce872795e69646a199411f023af0630, type: 3}
-  - {fileID: 3223446383990667567, guid: af9ed0288dccd4b6d9be4b4578b190ef, type: 3}
+  - {fileID: 8578287760318760280, guid: fdff9612f2c3c4422b14e5792585e032, type: 3}
   environment: {fileID: 4249574247824174576, guid: 9b839cefa00984491955fc59ce949509,
     type: 3}
   levelTitle: Beach Trail

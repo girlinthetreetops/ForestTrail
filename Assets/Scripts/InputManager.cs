@@ -18,7 +18,7 @@ public class InputManager : MonoBehaviour
 
     void Start()
     {
-        dragDistance = Screen.height * 15 / 100; //dragDistance is 15% height of the screen
+        dragDistance = Screen.height * 3 / 100;
     }
     //end new 
 

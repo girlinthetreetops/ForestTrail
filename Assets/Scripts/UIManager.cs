@@ -66,6 +66,7 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.OnGameOver.AddListener(loadGameoverUI);
 
         GameManager.Instance.OnCoinPickup.AddListener(UpdateGameplayUI);
+        GameManager.Instance.OnHeartPickup.AddListener(UpdateGameplayUI);
 
         GameManager.Instance.OnCollision.AddListener(UpdateGameplayUI);
 

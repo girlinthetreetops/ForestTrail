@@ -17,9 +17,10 @@ public class GameManager : MonoBehaviour
     //Level fields
     public List<LevelClass> levels;
     public LevelClass currentlySelectedLevel;
+    public Vector3 sectionOffset = new Vector3(0, 0, 60);
 
     //gameplay prefs
-    private float difficultySpeed = 0.5f;
+    private float difficultySpeed = 0.3f;
     public float globalSoundeffectVolume = 0.3f;
 
     //Events
@@ -40,6 +41,7 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnCollision;
 
     public UnityEvent OnCoinPickup;
+    public UnityEvent OnHeartPickup;
 
     public UnityEvent OnGamePause;
 
@@ -107,6 +109,11 @@ public class GameManager : MonoBehaviour
     public void CoinPickup()
     {
         OnCoinPickup.Invoke();
+    }
+
+    public void PickupHeart()
+    {
+        OnHeartPickup.Invoke();
     }
 
     public void PauseToggle()

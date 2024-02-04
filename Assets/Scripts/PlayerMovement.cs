@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     //Adjustments
-    public float speedDodge = 10f;
+    public float speedDodge = 20f;
     public float jumpPower = 7f;
     public float groundProximityJumpGrace = 0.8f; // To adjust jump grace
     public float jumpMultiplier = 3;
@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     public SkinnedMeshRenderer skinRenderer;
     public Material defaultMaterial;
     public Material hurtMaterial;
-    
+    public ParticleSystem coinParticles;
 
     //Movement bools - triggered for one frame when receieved from input script
     private bool swipeLeft;
@@ -60,6 +60,8 @@ public class PlayerMovement : MonoBehaviour
 
         gameManager.OnGameStart.AddListener(StartRunning);
         gameManager.OnCollision.AddListener(RespondToCollision);
+
+        GameManager.Instance.OnCoinPickup.AddListener(playSparkleParticles);
 
         gameManager.OnGameOver.AddListener(Die);
         gameManager.OnGameQuit.AddListener(Quit);
@@ -178,8 +180,6 @@ public class PlayerMovement : MonoBehaviour
         swipeUp = false;
     }
 
-    //internal float RollCounter;
-
     public void Roll()
     {
         if (canMove)
@@ -191,29 +191,8 @@ public class PlayerMovement : MonoBehaviour
                 anim.CrossFadeInFixedTime("Roll", 0.3f);
                 StartCoroutine("rollCoundwon");
             }
-
-            //if (RollCounter <= 0f)
-            //{
-            //    RollCounter = 0;
-            //    cc.center = new Vector3(0, tmpColCenterY, 0);
-            //    cc.height = tmpColHeight;
-            //    isInRoll = false;
-            //}
-
-            ////if swiping down and the timer is still not out of time... 
-            //if (swipeDown && RollCounter <= 0f)
-            //{
-            //    RollCounter = rollCoolDown;
-            //    yVel -= 10f;
-            //    cc.center = new Vector3(0, tmpColCenterY / 2, 0);
-            //    cc.height = tmpColHeight / 2;
-            //    anim.CrossFadeInFixedTime("Roll", 0.3f);
-            //    isInRoll = true;
-            //    isInJump = false;
-            //}
         }
 
-        //RollCounter -= Time.deltaTime; //detract from our roll counter timer 
         swipeDown = false; 
     }
 
@@ -224,6 +203,12 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
+    private void playSparkleParticles()
+    {
+        coinParticles.Play();
+
+
+    }
     public void CheckForCollisions()
     {
         Vector3 sphereCastOrigin = transform.position + cc.center; // Adjust origin to the center of the character controller

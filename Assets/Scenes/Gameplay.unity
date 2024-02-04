@@ -18,8 +18,8 @@ RenderSettings:
   m_FogColor: {r: 1, g: 0.5766399, b: 0.24313724, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.01
-  m_LinearFogStart: 10
-  m_LinearFogEnd: 70
+  m_LinearFogStart: 15
+  m_LinearFogEnd: 200
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.23819572, g: 0.28862244, b: 0.32278702, a: 1}
+  m_IndirectSpecularColor: {r: 0.14288524, g: 0.1730726, b: 0.24274832, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -185,10 +185,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1034405463}
   m_HandleRect: {fileID: 1139271084}
   m_Direction: 0
-  m_MinValue: 0.3
-  m_MaxValue: 0.7
+  m_MinValue: 0.2
+  m_MaxValue: 0.5
   m_WholeNumbers: 0
-  m_Value: 0.5
+  m_Value: 0.35
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -979,7 +979,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.5917582, b: 0.21226418, a: 1}
+  m_Color: {r: 1, g: 0.77790296, b: 0.5707547, a: 1}
   m_Intensity: 1.5
   m_Range: 10
   m_SpotAngle: 30
@@ -989,7 +989,7 @@ Light:
     m_Type: 2
     m_Resolution: 3
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.5
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -1038,13 +1038,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 191425697}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2410041, y: 0.14294438, z: 0.012907092, w: 0.9598528}
+  m_LocalRotation: {x: 0.9424059, y: -0.050177816, z: -0.067856334, w: 0.32364923}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 27.320002, y: 18.413, z: 6.0520005}
+  m_LocalEulerAnglesHint: {x: 142.9, y: 11.6, z: 10}
 --- !u!1 &208291641
 GameObject:
   m_ObjectHideFlags: 0
@@ -2876,6 +2876,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ee93a7482fb39451c94634f0bc666cdf, type: 2}
   - {fileID: 11400000, guid: 35082f0fe28bd446e8e621dcf3874fbf, type: 2}
   currentlySelectedLevel: {fileID: 0}
+  sectionOffset: {x: 0, y: 0, z: 60}
   globalSoundeffectVolume: 0.3
   OnButtonClick:
     m_PersistentCalls:
@@ -2902,6 +2903,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnCoinPickup:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHeartPickup:
     m_PersistentCalls:
       m_Calls: []
   OnGamePause:
@@ -3122,6 +3126,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3312099384815050550, guid: ecd503cc77a4140909d1e2174e4ba4f4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4618782393267325564, guid: ecd503cc77a4140909d1e2174e4ba4f4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3171,6 +3180,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7757351838387192227, guid: ecd503cc77a4140909d1e2174e4ba4f4,
+        type: 3}
+      propertyPath: m_StepOffset
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7872888135906205931, guid: ecd503cc77a4140909d1e2174e4ba4f4,
+        type: 3}
+      propertyPath: speedDodge
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7872888135906205931, guid: ecd503cc77a4140909d1e2174e4ba4f4,
         type: 3}
@@ -4492,7 +4511,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 816b0410ffba64450b9683795cf544e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 856673958}
   playerGold: 0
   lives: 0
   levelTimer: 0
@@ -4679,7 +4697,6 @@ MonoBehaviour:
   pool: {fileID: 1710489500}
   player: {fileID: 1554574865}
   previousPosition: {x: 0, y: 0, z: 0}
-  offSet: {x: 0, y: 0, z: 30}
 --- !u!1 &1416580856
 GameObject:
   m_ObjectHideFlags: 0
