@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SectionBehaviour : MonoBehaviour
 {
-    private SectionPool pool;
+    protected SectionPool pool;
 
     private bool canMove = true;
     private float movementSpeed = 40f;
@@ -30,22 +30,27 @@ public class SectionBehaviour : MonoBehaviour
 
     private void Update()
     {
+        DissapearAndRespawnNewSection();
+        Move();
+        
+    }
+
+    protected virtual void DissapearAndRespawnNewSection()
+    {
         if (transform.position.z <= -30)
         {
             Vector3 newPosition = transform.localPosition + GameManager.Instance.sectionOffset * 3;
             pool.ActivateARandomSection(newPosition, out previousPosition);
             pool.RemoveAnActiveSection(gameObject);
         }
-
-        if (canMove && !GameManager.Instance.isInCountdown)
-        {
-            Move();
-        }
     }
 
     private void Move()
     {
+    if (canMove && !GameManager.Instance.isInCountdown)
+    {
         transform.Translate(Vector3.back * Time.deltaTime * movementSpeed);
+    }
     }
 
     private void StopMoving()
